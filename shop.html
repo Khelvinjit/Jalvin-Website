@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop — Jalvin Fresh</title>
+<meta name="description" content="This week's fresh vegetables, fish, halal chicken and non-halal pork. Every price shows its pack size. Delivered in Cyberjaya on Wednesday and Saturday.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="Shop this week — Jalvin Fresh">
+<meta property="og:description" content="Fresh sayur, ikan and ayam bought from the farmer after you order. Cyberjaya delivery, Wednesday and Saturday.">
+<meta property="og:image" content="assets/img/og-cover.svg">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="has-bar">
+<div id="site-head"></div>
+
+<main>
+  <section class="section" style="padding-bottom:18px">
+    <div class="wrap">
+      <p class="eyebrow">This week's list</p>
+      <h1 style="margin-bottom:.25em">Shop</h1>
+      <p class="lede">Prices move with the market, so they change week to week. What you see now is
+        what you pay. Every item shows the pack size you will actually receive.</p>
+
+      <div class="field" style="max-width:420px;margin-top:22px">
+        <label for="q" class="label">Search</label>
+        <input type="text" id="q" placeholder="Try kangkung, ikan, ayam…" autocomplete="off">
+      </div>
+
+      <div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
+      <div id="cat-notice"></div>
+      <p class="muted small" id="count" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section style="padding-bottom:70px">
+    <div class="wrap">
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+</main>
+
+<div class="sticky-bar" id="bar" hidden>
+  <div class="grow">
+    <div class="money" id="bar-total">RM0.00</div>
+    <div class="tiny muted" id="bar-note">Your basket</div>
+  </div>
+  <a class="btn btn--primary" href="cart.html">View basket</a>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="data/products.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/catalogue.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG, Cat = window.Catalogue;
+  S.layout("shop.html");
+
+  const grid = document.getElementById("grid");
+  const catsEl = document.getElementById("cats");
+  const noticeEl = document.getElementById("cat-notice");
+  const countEl = document.getElementById("count");
+  const qEl = document.getElementById("q");
+
+  let active = "all", query = "";
+
+  catsEl.innerHTML =
+    '<button class="cat-tab" data-cat="all" aria-pressed="true">Everything</button>' +
+    C.categories.map(c =>
+      '<button class="cat-tab" data-cat="' + S.esc(c.id) + '" aria-pressed="false">' +
+        S.esc(c.ms) + ' <span class="muted">· ' + S.esc(c.en) + "</span></button>").join("");
+
+  function matches(p) {
+    if (active !== "all" && p.category !== active) return false;
+    if (!query) return true;
+    const hay = (p.ms + " " + p.en + " " + (p.note || "")).toLowerCase();
+    return hay.includes(query);
+  }
+
+  function draw() {
+    const all = S.allProducts();
+    const list = all.filter(matches);
+
+    // In "Everything", push non-halal to the end so a shopper browsing halal
+    // goods does not run into pork mid-scroll.
+    if (active === "all") {
+      list.sort((a, b) => (S.isNonHalal(a) ? 1 : 0) - (S.isNonHalal(b) ? 1 : 0));
+    }
+
+    Cat.render(grid, list, query
+      ? 'Nothing matches "' + query + '". Try a shorter word, or the Malay name.'
+      : "Nothing in this category right now.");
+
+    countEl.textContent = list.length + " of " + all.length + " items" +
+      (query ? ' matching "' + query + '"' : "");
+
+    // The non-halal section is a visually separate world, with a notice you
+    // have to read before you get to the products.
+    const cat = C.categories.find(c => c.id === active);
+    noticeEl.innerHTML = (cat && !cat.halal)
+      ? '<div class="nonhalal-notice"><h3>Non-halal section</h3><p>These are pork products. ' +
+        'They are stored, packed and delivered completely separately from everything else we sell ' +
+        '— separate cooler, separate bags, separate handling. Nothing in this section will ever ' +
+        'share a bag with your halal items. <a href="policies.html#halal">Read how we handle this</a>.</p></div>'
+      : "";
+
+    updateBar();
+  }
+
+  function updateBar() {
+    const t = S.totals();
+    const bar = document.getElementById("bar");
+    bar.hidden = t.itemCount === 0;
+    document.body.classList.toggle("has-bar", t.itemCount > 0);
+    document.getElementById("bar-total").textContent = S.money(t.grand);
+    document.getElementById("bar-note").textContent =
+      t.belowMinimum ? "Add " + S.money(t.shortBy) + " to reach the " + S.money(C.minimumOrder) + " minimum"
+      : t.freeDelivery ? t.itemCount + " items · free delivery"
+      : t.itemCount + " items · " + S.money(t.awayFromFree) + " more for free delivery";
+  }
+
+  catsEl.addEventListener("click", e => {
+    const b = e.target.closest(".cat-tab");
+    if (!b) return;
+    active = b.getAttribute("data-cat");
+    S.$$(".cat-tab", catsEl).forEach(x =>
+      x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+    draw();
+  });
+
+  let debounce;
+  qEl.addEventListener("input", () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => { query = qEl.value.trim().toLowerCase(); draw(); }, 140);
+  });
+
+  Cat.wire(grid);
+  document.addEventListener("cart:change", updateBar);
+
+  // Deep link: shop.html#nonhalal jumps straight to that category.
+  const hash = (location.hash || "").replace("#", "");
+  if (hash && C.categories.some(c => c.id === hash)) {
+    active = hash;
+    S.$$(".cat-tab", catsEl).forEach(x =>
+      x.setAttribute("aria-pressed", x.getAttribute("data-cat") === hash ? "true" : "false"));
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

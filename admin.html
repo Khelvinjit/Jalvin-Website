@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner panel — Jalvin Fresh</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<!-- LOCK ------------------------------------------------------------- -->
+<div id="lock" class="wrap" style="max-width:440px;padding-top:12vh">
+  <div class="panel">
+    <h1 style="font-size:1.6rem">Owner panel</h1>
+    <p class="muted small">Prices, orders, your farm shopping list and reviews.</p>
+    <form id="lock-form">
+      <div class="field">
+        <label for="pass">Passcode</label>
+        <input type="password" id="pass" autocomplete="current-password" autofocus>
+        <div class="err" id="pass-err"></div>
+      </div>
+      <button class="btn btn--primary btn--block" type="submit">Unlock</button>
+    </form>
+    <div class="notice notice--warn" style="margin-top:18px">
+      <b>Be honest with yourself about this lock.</b> This website has no server, so this passcode
+      only keeps casual visitors out — anyone who knows how to view page source can read it. It
+      protects the convenience of this panel, not your money. Your money is safe because payments go
+      straight to your bank and never through this website.
+    </div>
+    <p class="tiny muted" style="margin-top:14px"><a href="index.html" style="display:inline-block;padding:6px 0;min-height:24px">&larr; Back to the shop</a></p>
+  </div>
+</div>
+
+<!-- PANEL ------------------------------------------------------------ -->
+<div id="panel" hidden>
+  <div class="site-head"><div class="wrap"><div class="site-head__inner">
+    <a class="brand" href="index.html">
+      <span class="brand__mark" style="color:#8FCF9F">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20c0-9 6-15 16-15 0 11-6 16-13 16-1 0-2 0-3-1z"/></svg>
+      </span>
+      <span><span class="brand__name">Owner panel</span><br>
+      <span class="brand__sub">Jalvin Fresh</span></span>
+    </a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="btn btn--ghost btn--sm" href="index.html" target="_blank">View shop</a>
+      <button class="btn btn--ghost btn--sm" id="lock-again">Lock</button>
+    </div>
+  </div></div></div>
+
+  <div class="wrap section">
+    <div id="dirty-banner"></div>
+
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="products" aria-selected="true">Prices &amp; products</button>
+      <button role="tab" data-tab="orders" aria-selected="false">Orders</button>
+      <button role="tab" data-tab="farm" aria-selected="false">Farm list</button>
+      <button role="tab" data-tab="reviews" aria-selected="false">Reviews</button>
+      <button role="tab" data-tab="settings" aria-selected="false">Settings</button>
+    </div>
+
+    <!-- PRODUCTS ---------------------------------------------------- -->
+    <section data-panel="products">
+      <div class="row between" style="margin-bottom:14px">
+        <div>
+          <h2 style="margin:0">Prices &amp; products</h2>
+          <p class="muted small" style="margin:4px 0 0">Change a price, mark something sold out, or
+            add a new item. Nothing reaches your customers until you publish.</p>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn btn--ghost btn--sm" id="p-revert">Undo all changes</button>
+          <button class="btn btn--primary btn--sm" id="p-export">Publish &rarr; download products.js</button>
+        </div>
+      </div>
+
+      <div class="notice notice--info" style="margin-bottom:16px">
+        <b>How publishing works.</b> Edit the table below &rarr; click <b>Publish</b> &rarr; your
+        browser downloads <code>products.js</code> &rarr; upload that file to your website's
+        <code>data/</code> folder, replacing the old one. That's it.
+      </div>
+
+      <div class="row" style="margin-bottom:12px">
+        <input type="text" id="p-search" placeholder="Filter products…" style="max-width:260px">
+        <select id="p-cat" style="max-width:220px"></select>
+        <span class="grow"></span>
+        <button class="btn btn--ghost btn--sm" id="p-add">+ Add a product</button>
+      </div>
+
+      <div class="table-wrap">
+        <table id="p-table">
+          <thead><tr>
+            <th>Item</th><th>Pack size</th>
+            <th class="num">Cost</th><th class="num">Sell</th><th class="num">Margin</th>
+            <th class="num">Max/round</th><th>In stock</th><th></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="muted small" id="p-summary" style="margin-top:12px"></p>
+    </section>
+
+    <!-- ORDERS ------------------------------------------------------ -->
+    <section data-panel="orders" hidden>
+      <h2 style="margin:0">Orders</h2>
+      <p class="muted small">Copy a customer's WhatsApp order message, paste it here, and it fills
+        itself in. No retyping.</p>
+
+      <div class="two-col" style="margin-top:18px">
+        <div>
+          <div class="panel">
+            <h3 style="margin-top:0">Paste a WhatsApp order</h3>
+            <textarea id="o-paste" style="min-height:150px;font-family:ui-monospace,monospace;font-size:.85rem"
+              placeholder="In WhatsApp: long-press the order message &rarr; Copy &rarr; paste here"></textarea>
+            <div id="o-preview" style="margin-top:12px"></div>
+            <div class="row" style="margin-top:12px">
+              <button class="btn btn--ghost btn--sm" id="o-check">Check it</button>
+              <button class="btn btn--primary btn--sm" id="o-save">Save this order</button>
+            </div>
+          </div>
+        </div>
+        <div class="sticky-col">
+          <div class="card">
+            <h4 style="margin-top:0">Verifying a payment</h4>
+            <ol class="small muted" style="padding-left:18px;margin:0">
+              <li>Find the order number in your bank's DuitNow reference.</li>
+              <li>Check the amount matches the order total exactly.</li>
+              <li>Set the status below to <b>Payment verified</b>.</li>
+              <li>Reply on WhatsApp so the customer knows.</li>
+            </ol>
+            <div class="notice notice--warn" style="margin-top:14px">
+              Never buy anything before the money is actually in your account. A receipt screenshot
+              can be edited — your bank balance cannot.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row between" style="margin:26px 0 12px">
+        <h3 style="margin:0">Saved orders</h3>
+        <button class="btn btn--primary btn--sm" id="o-export">Publish statuses &rarr; order-status.js</button>
+      </div>
+      <div class="table-wrap">
+        <table id="o-table">
+          <thead><tr>
+            <th>Order</th><th>Customer</th><th>Delivery</th>
+            <th class="num">Total</th><th>Status</th><th>Public update</th><th></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="tiny muted" style="margin-top:10px">The public update is shown to anyone who enters
+        this order number on the tracking page, so never put a name, phone number or address in it.</p>
+    </section>
+
+    <!-- FARM LIST --------------------------------------------------- -->
+    <section data-panel="farm" hidden>
+      <div class="row between" style="margin-bottom:6px">
+        <div>
+          <h2 style="margin:0">Farm shopping list</h2>
+          <p class="muted small" style="margin:4px 0 0">Every order for one delivery day, added up
+            into a single list. Print it and take it to the market.</p>
+        </div>
+        <button class="btn btn--ghost btn--sm no-print" onclick="window.print()">Print</button>
+      </div>
+      <div class="row no-print" style="margin:16px 0">
+        <label class="label" for="f-date" style="margin:0">Delivery date</label>
+        <select id="f-date" style="max-width:280px"></select>
+      </div>
+      <div id="f-summary"></div>
+      <div class="table-wrap" style="margin-top:16px">
+        <table id="f-table">
+          <thead><tr>
+            <th>Buy this</th><th>Pack</th><th class="num">Qty</th>
+            <th class="num">Est. cost</th><th class="num">Customers paid</th><th>Got it</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="f-orders" style="margin-top:26px"></div>
+    </section>
+
+    <!-- REVIEWS ----------------------------------------------------- -->
+    <section data-panel="reviews" hidden>
+      <div class="row between" style="margin-bottom:14px">
+        <div>
+          <h2 style="margin:0">Reviews</h2>
+          <p class="muted small" style="margin:4px 0 0">5-star reviews can be published once you
+            approve them. Anything below 5 stars stays here, for your eyes only.</p>
+        </div>
+        <button class="btn btn--primary btn--sm" id="r-export">Publish &rarr; download reviews.js</button>
+      </div>
+
+      <div class="two-col">
+        <div>
+          <div class="panel">
+            <h3 style="margin-top:0">Add a review you received</h3>
+            <div class="field-row">
+              <div class="field">
+                <label for="r-name">Customer's first name</label>
+                <input type="text" id="r-name" placeholder="Aina">
+              </div>
+              <div class="field">
+                <label for="r-area">Condo / area</label>
+                <input type="text" id="r-area" placeholder="Tamarind Square">
+              </div>
+            </div>
+            <div class="field">
+              <label for="r-stars">Stars</label>
+              <select id="r-stars">
+                <option value="5">5 — can be published</option>
+                <option value="4">4 — private</option>
+                <option value="3">3 — private</option>
+                <option value="2">2 — private</option>
+                <option value="1">1 — private</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="r-text">What they said</label>
+              <textarea id="r-text"></textarea>
+            </div>
+            <div class="field">
+              <label for="r-consent" class="label">
+                <input type="checkbox" id="r-consent" style="width:auto;min-height:0">
+                They gave permission to publish it
+              </label>
+              <p class="hint">Only tick this if they actually said yes. Publishing someone's words
+                without asking is both rude and a PDPA problem.</p>
+            </div>
+            <button class="btn btn--green btn--block" id="r-add">Save review</button>
+          </div>
+        </div>
+        <div class="sticky-col">
+          <div class="card">
+            <h4 style="margin-top:0">Why the split</h4>
+            <p class="small muted" style="margin:0">Publishing only 5-star reviews means your public
+              page shows your <b>best</b> reviews, not a representative sample. The website says that
+              out loud on the homepage and the review form, so nobody is misled. Reviews below 5
+              stars are worth more to you than any of the good ones — they are the only place your
+              next improvement is written down.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:30px">Published on your website</h3>
+      <div id="r-published" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))"></div>
+
+      <h3 style="margin-top:30px">Waiting for your approval</h3>
+      <div id="r-pending" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))"></div>
+
+      <h3 style="margin-top:30px">Private — for improving the business</h3>
+      <p class="muted small">Never published. Write down what you did about each one.</p>
+      <div id="r-private" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))"></div>
+    </section>
+
+    <!-- SETTINGS ---------------------------------------------------- -->
+    <section data-panel="settings" hidden>
+      <h2 style="margin:0">Settings</h2>
+      <p class="muted small">These live in <code>assets/js/config.js</code>. Change the value, save
+        the file, upload it — the whole website updates.</p>
+      <div class="table-wrap" style="margin-top:18px">
+        <table><thead><tr><th>Setting</th><th>Now</th><th>Where to change it</th></tr></thead>
+        <tbody id="s-table"></tbody></table>
+      </div>
+      <div class="notice notice--warn" style="margin-top:20px">
+        <b>Before you go live, replace the placeholders.</b> Malaysian law requires an online shop to
+        show its registered business name, SSM number, email and phone. Those are in the
+        <code>business</code> block of <code>config.js</code>, and they appear in the footer of every
+        page. Also replace <code>assets/img/duitnow-qr.svg</code> with your own DuitNow QR, and
+        change the admin passcode.
+      </div>
+    </section>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="data/products.js"></script>
+<script src="data/reviews.js"></script>
+<script src="data/order-status.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/admin-ui.js"></script>
+</body>
+</html>

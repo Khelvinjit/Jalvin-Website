@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policies — Jalvin Fresh</title>
+<meta name="description" content="Terms and conditions, refund and substitution policy, halal and non-halal handling, delivery policy and PDPA privacy notice for Jalvin Fresh.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <section class="section">
+    <div class="wrap" style="max-width:820px">
+      <p class="eyebrow">The fine print, in plain language</p>
+      <h1>Our policies</h1>
+
+      <!-- This banner is for the owner, not the customer. Delete it once the
+           real business details have been filled in. -->
+      <div class="notice notice--warn" id="owner-todo" style="margin:22px 0">
+        <b>Owner: fill these in before going live.</b> Malaysian law (the Consumer Protection
+        (Electronic Trade Transactions) Regulations 2012) requires an online seller to display its
+        registered business name, SSM registration number, email address, phone number, a
+        description of the goods, the full price including all charges, the payment terms and the
+        estimated delivery time — and to keep transaction records for two years. Everything below is
+        laid out for you; replace the placeholder details in
+        <code>assets/js/config.js</code>, then delete this box from <code>policies.html</code>.
+      </div>
+
+      <div class="card" style="margin-bottom:30px">
+        <h3 style="margin-top:0">Who you are buying from</h3>
+        <div id="seller-details"></div>
+      </div>
+
+      <nav class="row" style="gap:8px;margin-bottom:34px">
+        <a class="btn btn--ghost btn--sm" href="#terms">Terms</a>
+        <a class="btn btn--ghost btn--sm" href="#refund">Refunds</a>
+        <a class="btn btn--ghost btn--sm" href="#delivery">Delivery</a>
+        <a class="btn btn--ghost btn--sm" href="#halal">Halal handling</a>
+        <a class="btn btn--ghost btn--sm" href="#privacy">Privacy</a>
+      </nav>
+
+      <!-- TERMS --------------------------------------------------------- -->
+      <article id="terms" style="scroll-margin-top:140px">
+        <h2>Terms &amp; conditions</h2>
+
+        <h3>1. What we do</h3>
+        <p>We take your order and payment first, then buy the goods from farmers and market
+          suppliers on your behalf, then deliver them to you. We do not hold stock. This means your
+          order is a request for us to purchase specific goods for you, and it is only fulfilled
+          once those goods have actually been bought.</p>
+
+        <h3>2. Prices</h3>
+        <p>Prices are set from the market rate at the time of listing and change week to week. The
+          price shown when you place your order is the price you pay — we will never ask you for
+          more after you have paid, even if the market price rises before we shop. All prices are in
+          Malaysian Ringgit and include all charges. Delivery is shown as a separate line before you
+          pay.</p>
+
+        <h3>3. Pack sizes</h3>
+        <p>Fresh produce is sold in fixed packs at fixed prices. Every listing states the pack size
+          as an approximate, because natural produce cannot be portioned exactly. We aim to stay
+          within roughly 10% of the stated weight. If a pack arrives noticeably short, tell us and
+          we will refund the difference.</p>
+
+        <h3>4. Order cut-offs</h3>
+        <p id="terms-cutoffs"></p>
+        <p>Cut-offs are firm. Once a cut-off has passed, that delivery date is removed from checkout
+          automatically and cannot be reinstated.</p>
+
+        <h3>5. Payment</h3>
+        <p>Payment is by DuitNow QR only, in full, at the time of ordering. Your order is not
+          confirmed until we have verified your payment and sent you a confirmation on WhatsApp. We
+          will never ask you for your banking password, TAC, OTP or card details, and you should
+          treat anyone who does as a fraudster, including anyone claiming to be us.</p>
+
+        <h3>6. Cancellation</h3>
+        <p>You may cancel any time before the cut-off for a full refund. After the cut-off we have
+          already purchased your goods with our own funds and cannot cancel them.</p>
+
+        <h3>7. Our right to decline</h3>
+        <p>We may decline or cancel an order and refund you in full if we cannot verify payment, if
+          the delivery address falls outside our service area, or if we are unable to source enough
+          of what you ordered to make the order worthwhile.</p>
+
+        <h3>8. Records</h3>
+        <p>We keep records of each transaction for two years, as required by the Consumer Protection
+          (Electronic Trade Transactions) Regulations 2012.</p>
+
+        <h3>9. Governing law</h3>
+        <p>These terms are governed by the laws of Malaysia. Nothing here limits your statutory
+          rights under the Consumer Protection Act 1999.</p>
+      </article>
+
+      <hr>
+
+      <!-- REFUND -------------------------------------------------------- -->
+      <article id="refund" style="scroll-margin-top:140px">
+        <h2>Refund &amp; substitution policy</h2>
+
+        <h3>When something is out of stock</h3>
+        <p>Market stock changes by the hour. If we cannot get an item you ordered, we contact you
+          on WhatsApp <b>from the market, before deciding anything</b>. You choose your preference
+          in advance at checkout:</p>
+        <ul id="sub-list"></ul>
+
+        <h3>When you are not happy with the quality</h3>
+        <p>Tell us on the day of delivery and send a photo. If an item arrived in a condition you
+          would not have bought at the market yourself, we refund that item in full. You do not need
+          to return it — returning fresh produce helps nobody.</p>
+
+        <h3>How refunds are paid</h3>
+        <p>Refunds are made by bank transfer to the account you paid from, within 24 hours of
+          delivery, and we send you the transfer receipt. We do not issue store credit unless you
+          specifically ask for it.</p>
+
+        <h3>What is not refundable</h3>
+        <p>Goods that were delivered correctly and in good condition, but that you changed your mind
+          about after delivery. Fresh food cannot be resold once it has left our cooler, so we
+          cannot take it back.</p>
+      </article>
+
+      <hr>
+
+      <!-- DELIVERY ------------------------------------------------------ -->
+      <article id="delivery" style="scroll-margin-top:140px">
+        <h2>Delivery policy</h2>
+        <h3>Where</h3>
+        <p id="del-area"></p>
+        <h3>When</h3>
+        <p id="del-when"></p>
+        <h3>Cold chain</h3>
+        <p>Fish, seafood, chicken and pork travel in insulated cooler boxes with ice packs and are
+          kept between 0&ndash;4&deg;C from the market to your door. Please refrigerate them
+          promptly on arrival.</p>
+        <h3>If you are not home</h3>
+        <p>We will call. If you asked us to leave your order at your door, we will do so and send
+          you a photo — at that point it becomes your responsibility, so please only choose this if
+          you have a safe, shaded spot. If we cannot reach you and you did not choose leave-at-door,
+          we take the order with us and arrange redelivery, but we cannot guarantee the quality of
+          chilled goods after that.</p>
+      </article>
+
+      <hr>
+
+      <!-- HALAL --------------------------------------------------------- -->
+      <article id="halal" style="scroll-margin-top:140px">
+        <h2>Halal &amp; non-halal handling</h2>
+
+        <div class="nonhalal-notice">
+          <h3>Please read this before ordering</h3>
+          <p>We sell both halal chicken and non-halal pork products. Because of that, this business
+            as a whole is <b>not</b> halal-certified, and we will not describe it as such. What we
+            commit to instead is strict separation, set out below.</p>
+        </div>
+
+        <h3>Our chicken</h3>
+        <p>All chicken we sell is sourced from a JAKIM-certified halal supplier.</p>
+
+        <h3>How the two are kept apart</h3>
+        <ul>
+          <li><b>Separate sourcing.</b> Halal and non-halal goods are bought from different
+            suppliers and never carried in the same container from the market.</li>
+          <li><b>Separate storage.</b> Different cooler boxes, different ice packs, different
+            containers. Nothing is shared between the two.</li>
+          <li><b>Separate packing.</b> Non-halal items are sealed in their own bags and packed
+            separately, using separate gloves and separate surfaces.</li>
+          <li><b>Separate delivery.</b> If your order contains both, they arrive as two sealed
+            packages that never touch each other.</li>
+          <li><b>Separate on your order.</b> Your order confirmation lists halal and non-halal items
+            as two distinct sections, so you can check exactly what is in each bag.</li>
+        </ul>
+
+        <h3>If you would rather not order from a shop that sells pork at all</h3>
+        <p>We completely understand, and we would rather you knew now than found out later. That is
+          why the non-halal section is clearly marked everywhere on this site and never mixed into
+          general listings.</p>
+      </article>
+
+      <hr>
+
+      <!-- PRIVACY ------------------------------------------------------- -->
+      <article id="privacy" style="scroll-margin-top:140px">
+        <h2>Privacy notice</h2>
+        <p class="muted small">Issued under the Personal Data Protection Act 2010 (PDPA).</p>
+
+        <h3>What we collect</h3>
+        <p>Your name, WhatsApp number, delivery address and postcode, your order details, and any
+          notes you choose to send us. If you leave a review, we also collect your first name and
+          the area you live in.</p>
+
+        <h3>Why we collect it</h3>
+        <p>To process your order, verify your payment, buy the right goods, deliver to the right
+          address, contact you if something sells out, and handle refunds. We cannot fulfil an order
+          without this information.</p>
+
+        <h3>Who we share it with</h3>
+        <p>Nobody, other than the person delivering your order. We do not sell, rent or trade your
+          personal data, and we do not share it for advertising. We do not use third-party
+          advertising trackers on this website.</p>
+
+        <h3>Where it is stored</h3>
+        <p>Your order reaches us as a WhatsApp message and stays in that chat. A copy of your own
+          recent orders is stored in your own web browser so that the tracking and reorder features
+          work — that copy never leaves your device and we cannot see it. Clearing your browser data
+          removes it.</p>
+
+        <h3>How long we keep it</h3>
+        <p>Two years, as required for transaction records under the Consumer Protection (Electronic
+          Trade Transactions) Regulations 2012, after which it is deleted.</p>
+
+        <h3>Your rights</h3>
+        <p>You may ask us at any time to show you the personal data we hold about you, correct it,
+          or delete it. Message us on WhatsApp and we will action it. You may also withdraw consent
+          for us to contact you, though we will then be unable to process further orders.</p>
+
+        <h3>Reviews</h3>
+        <p>If you send us a review, we publish it only if it is 5 stars <b>and</b> you have given us
+          permission. We publish only your first name and general area — never your phone number,
+          address or order details. Reviews below 5 stars are never published; they go to the owner
+          so we can fix what went wrong. Ask us to remove a published review and we will.</p>
+
+        <h3>Contact</h3>
+        <p id="privacy-contact"></p>
+      </article>
+
+      <p class="muted small" style="margin-top:40px">Last updated: <span id="updated"></span>.</p>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG, b = C.business;
+  S.layout("policies.html");
+
+  document.getElementById("seller-details").innerHTML =
+    "<p><b>" + S.esc(b.name) + "</b><br>" +
+    S.esc(b.ssmNumber) + "<br>" +
+    "Email: " + S.esc(b.email) + "<br>" +
+    "WhatsApp / phone: " + S.esc(b.whatsappDisplay) + "<br>" +
+    "Service area: " + S.esc(b.serviceArea) + " (" + C.allowedPostcodes.join(", ") + ")</p>" +
+    "<p class=\"small muted\">We sell fresh vegetables, fish and seafood, halal chicken and " +
+    "non-halal pork products, bought to order from farms and wet markets. Prices are in Malaysian " +
+    "Ringgit and include all charges. Delivery is " + S.money(C.deliveryFee) + ", free above " +
+    S.money(C.freeDeliveryAbove) + ". Minimum order " + S.money(C.minimumOrder) + ". " +
+    "Payment is by DuitNow QR in full at the time of ordering.</p>";
+
+  document.getElementById("terms-cutoffs").innerHTML =
+    C.deliverySlots.map(s => "<b>" + S.esc(s.label) + " delivery</b> — order by <b>" +
+      S.esc(s.cutoffLabel) + "</b>.").join("<br>");
+
+  document.getElementById("sub-list").innerHTML =
+    C.substitutionOptions.map(o => "<li><b>" + S.esc(o.label) + "</b> — " + S.esc(o.note) + "</li>").join("");
+
+  document.getElementById("del-area").innerHTML =
+    "We deliver to " + S.esc(C.allowedAreaName) + " only, postcodes <b>" +
+    C.allowedPostcodes.join("</b> and <b>") + "</b>. Orders to any other postcode cannot be " +
+    "accepted at checkout.";
+
+  document.getElementById("del-when").innerHTML =
+    C.deliverySlots.map(s => "<b>" + S.esc(s.label) + "</b> (order by " + S.esc(s.cutoffLabel) + ")").join(" and ") +
+    ". You choose a time window at checkout: " + C.deliveryWindows.map(S.esc).join(", ") + ".";
+
+  document.getElementById("privacy-contact").innerHTML =
+    "For any question about your personal data, contact " + S.esc(b.ownerName) + " at " +
+    S.esc(b.email) + " or on WhatsApp at " + S.esc(b.whatsappDisplay) + ".";
+
+  document.getElementById("updated").textContent =
+    S.formatDateLong(new Date()).replace(/^[A-Za-z]+,\s*/, "");
+})();
+</script>
+</body>
+</html>

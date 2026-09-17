@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track your order — Jalvin Fresh</title>
+<meta name="description" content="Check whether your payment has been verified, whether we've bought your goods yet, and when your Jalvin Fresh order is out for delivery.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Order status</p>
+      <h1>Where is my order?</h1>
+      <p class="lede">Enter the order number from your confirmation. We also WhatsApp you at every
+        stage, so this page is just for when you'd rather not message anyone.</p>
+
+      <div class="two-col" style="margin-top:26px">
+        <div>
+          <form class="panel" id="track-form" novalidate>
+            <div class="field" style="margin-bottom:12px">
+              <label for="ref">Order number</label>
+              <p class="hint">It looks like JV-260917-0417 — it's in your confirmation message.</p>
+              <input type="text" id="ref" name="ref" placeholder="JV-260917-0417" autocomplete="off"
+                     spellcheck="false" style="text-transform:uppercase">
+            </div>
+            <button class="btn btn--primary" type="submit">Check my order</button>
+          </form>
+
+          <div id="result" style="margin-top:20px"></div>
+
+          <!-- The customer's own saved orders, from this browser. -->
+          <div id="mine" style="margin-top:34px"></div>
+        </div>
+
+        <div class="sticky-col">
+          <div class="card">
+            <h3 style="margin-top:0">What each stage means</h3>
+            <div id="legend"></div>
+          </div>
+          <div class="notice notice--info" style="margin-top:14px">
+            <b>Payment not verified yet?</b> We check payments in batches through the day and always
+            confirm on WhatsApp. If something looks wrong, message us — we'd rather fix it early.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="data/products.js"></script>
+<script src="data/order-status.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/track.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG, T = window.Track;
+  S.layout("track.html");
+
+  const form = document.getElementById("track-form");
+  const result = document.getElementById("result");
+
+  document.getElementById("legend").innerHTML =
+    '<ul class="hero__points" style="margin:0">' +
+    C.orderStatuses.filter(s => s.step > 0).map(s =>
+      '<li><span class="tick">' + s.step + "</span><span><b>" + S.esc(s.en) + "</b><br>" +
+      '<span class="muted small">' + S.esc(s.ms) + "</span></span></li>").join("") + "</ul>";
+
+  function run(ref) {
+    const r = T.lookup(ref);
+    result.innerHTML = T.resultHtml(r.ref, r.record);
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const ref = form.ref.value.trim();
+    if (!ref) { S.toast("Enter your order number first"); return; }
+    run(ref);
+    history.replaceState(null, "", "?ref=" + encodeURIComponent(ref.toUpperCase()));
+  });
+
+  // Deep link from a WhatsApp message: track.html?ref=JV-260917-0417
+  const qs = new URLSearchParams(location.search).get("ref");
+  if (qs) { form.ref.value = qs; run(qs); }
+
+  /* ---- the customer's own orders, and one-tap reorder ------------------
+     Weekly grocery orders repeat. Reordering last week's basket in one tap is
+     the single highest-value feature for keeping a customer. */
+  const mine = S.savedOrders();
+  const host = document.getElementById("mine");
+  if (mine.length) {
+    host.innerHTML = "<h2>Your recent orders</h2>" +
+      '<p class="muted small">Saved on this device only.</p>' +
+      mine.slice(0, 5).map(o =>
+        '<div class="card" style="margin-bottom:12px">' +
+          '<div class="row between">' +
+            "<div><b>" + S.esc(o.ref) + "</b><br>" +
+              '<span class="muted small">' + S.esc(o.deliveryText) + " · " +
+              S.money(o.grand) + " · " +
+              (o.halal.length + o.nonhalal.length) + " items</span></div>" +
+            '<div class="row" style="gap:8px">' +
+              '<button class="btn btn--ghost btn--sm" data-check="' + S.esc(o.ref) + '">Check status</button>' +
+              '<button class="btn btn--primary btn--sm" data-reorder="' + S.esc(o.ref) + '">Order again</button>' +
+            "</div></div></div>").join("");
+
+    host.addEventListener("click", e => {
+      const c = e.target.closest("[data-check]");
+      if (c) { form.ref.value = c.getAttribute("data-check"); run(c.getAttribute("data-check")); return; }
+      const r = e.target.closest("[data-reorder]");
+      if (!r) return;
+      const o = mine.find(x => x.ref === r.getAttribute("data-reorder"));
+      if (!o) return;
+      let added = 0, skipped = [];
+      o.halal.concat(o.nonhalal).forEach(l => {
+        const p = S.productById(l.id);
+        if (p && p.inStock !== false) { S.setQty(l.id, l.qty); added++; }
+        else skipped.push(l.name);
+      });
+      S.toast(added + " items back in your basket" +
+              (skipped.length ? " (" + skipped.join(", ") + " unavailable)" : ""));
+      setTimeout(() => { location.href = "cart.html"; }, 900);
+    });
+  } else {
+    host.innerHTML = '<div class="notice"><b>No orders on this device yet.</b> Once you place one, ' +
+      'it will show up here and you can reorder the whole basket in one tap.</div>';
+  }
+})();
+</script>
+</body>
+</html>

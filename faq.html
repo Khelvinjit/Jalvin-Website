@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works &amp; FAQ — Jalvin Fresh</title>
+<meta name="description" content="Order cut-offs, delivery days, DuitNow payment, out-of-stock policy and refunds explained. Jalvin Fresh delivers fresh groceries in Cyberjaya.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <section class="section">
+    <div class="wrap" style="max-width:820px">
+      <p class="eyebrow">Everything explained</p>
+      <h1>How it works &amp; FAQ</h1>
+      <p class="lede">We ask you to pay before we've bought anything, which is unusual. Here is
+        exactly why, and what protects you.</p>
+
+      <div class="notice notice--info" style="margin:26px 0">
+        <b>The short version.</b> You order and pay by Monday night (Wednesday delivery) or Thursday
+        night (Saturday delivery). We verify your payment, buy your goods fresh on delivery morning,
+        and bring them to your door in Cyberjaya. If anything sells out, we message you from the
+        market before deciding anything.
+      </div>
+
+      <div class="faq" id="faq"></div>
+
+      <div class="card" style="margin-top:34px">
+        <h3 style="margin-top:0">Still not sure about something?</h3>
+        <p>Ask us directly — a real person answers, usually within two hours between 8am and 9pm.</p>
+        <a class="btn btn--wa" id="wa" href="#" target="_blank" rel="noopener">WhatsApp us</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG;
+  S.layout("faq.html");
+  const M = n => S.money(n);
+
+  const QA = [
+    ["Why do I pay before you've bought anything?",
+     "<p>Because we don't hold stock. We're not a shop with a fridge full of fish hoping someone " +
+     "buys it — we buy exactly what has been ordered, on the morning of delivery.</p>" +
+     "<p>That's the whole reason this is cheaper than a grocery app: nobody is paying for waste, " +
+     "warehousing, or the markup that covers both. The trade-off is that we need your order " +
+     "confirmed before we go shopping.</p>" +
+     "<p><b>What protects you:</b> we're a registered business with a fixed address and a phone " +
+     "number that a real person answers. If we can't get your items, you get a refund — and we " +
+     "message you from the market before anything is decided.</p>"],
+
+    ["When exactly do I have to order by?",
+     "<p><b>Wednesday delivery</b> — order by <b>Monday 11:59 PM</b>.<br>" +
+     "<b>Saturday delivery</b> — order by <b>Thursday 11:59 PM</b>.</p>" +
+     "<p>These are firm. After the cut-off we're already planning the route and the shopping list, " +
+     "and there's no time left to add anything. The countdown at the top of every page shows " +
+     "exactly how long you have. Once a cut-off passes, that date simply disappears from checkout.</p>"],
+
+    ["Where do you deliver?",
+     "<p>Cyberjaya only &mdash; postcodes <b>" + C.allowedPostcodes.join("</b> and <b>") + "</b>.</p>" +
+     "<p>Raw fish and chicken need to stay between 0&ndash;4&deg;C from the market to your kitchen. " +
+     "One tight route through one town is the only way we can promise that honestly. We'd rather " +
+     "serve Cyberjaya properly than serve half the Klang Valley badly.</p>" +
+     "<p>Outside Cyberjaya? Message us anyway. We keep a list, and we expand to wherever the " +
+     "requests are coming from.</p>"],
+
+    ["How much is delivery, and is there a minimum?",
+     "<p>Delivery is <b>" + M(C.deliveryFee) + "</b>, and it's <b>free</b> once your basket passes " +
+     "<b>" + M(C.freeDeliveryAbove) + "</b>. Minimum order is <b>" + M(C.minimumOrder) + "</b>.</p>" +
+     "<p>The minimum exists because one delivery run has to be worth making. The free-delivery " +
+     "threshold exists because a bigger basket costs us almost nothing more to deliver, so we'd " +
+     "rather pass that on than pocket it.</p>"],
+
+    ["How do I pay?",
+     "<p>By <b>DuitNow QR</b>. At checkout you'll see a QR code and your order number. Scan the " +
+     "code with any Malaysian banking app, pay the exact amount, and <b>type your order number " +
+     "into the payment reference box</b>.</p>" +
+     "<p>That last step matters more than it looks: it's what lets us match your payment to your " +
+     "order in seconds instead of hunting through a bank statement. Then send us the order on " +
+     "WhatsApp with your receipt screenshot attached.</p>" +
+     "<p>We don't take card payments and we never ask for your banking password, TAC or OTP. " +
+     "Nobody from " + S.esc(C.business.name) + " will ever ask you for those.</p>"],
+
+    ["How do I know you received my payment?",
+     "<p>We WhatsApp you a confirmation once we've matched your payment to your order &mdash; " +
+     "usually within two hours, between 8am and 9pm. You can also check any time on the " +
+     '<a href="track.html">order tracking page</a> using your order number.</p>' +
+     "<p>Nothing is bought until that confirmation goes out. If we can't verify your payment, we " +
+     "refund it in full.</p>"],
+
+    ["What happens if something is out of stock?",
+     "<p>It happens &mdash; a stall sells out, a boat doesn't come in, a crop fails. When it does, " +
+     "we <b>message you from the market</b> before deciding anything.</p>" +
+     "<p>At checkout you tell us in advance what you'd prefer:</p><ul>" +
+     C.substitutionOptions.map(o => "<li><b>" + S.esc(o.label) + "</b> &mdash; " + S.esc(o.note) + "</li>").join("") +
+     "</ul><p>Refunds go back to your bank within 24 hours of delivery, and we send you the " +
+     "transfer receipt.</p>"],
+
+    ["What if the quality isn't good when it arrives?",
+     "<p>Tell us the same day, with a photo. If something arrived in a state you wouldn't have " +
+     "bought at the market yourself, we refund that item &mdash; no argument, no returning it.</p>" +
+     "<p>We'd rather lose the price of a bundle of kangkung than a customer. Fresh produce is " +
+     "judged by eye, and if our eye and yours disagree, yours wins.</p>"],
+
+    ["Can I cancel or change my order?",
+     "<p>Yes &mdash; any time <b>before the cut-off</b>, for a full refund. Just WhatsApp us with " +
+     "your order number.</p>" +
+     "<p>After the cut-off we've already bought your goods with our own money, so we can't cancel " +
+     "them. If something genuinely urgent comes up, message us anyway and we'll do what we can.</p>"],
+
+    ["Is the chicken halal?",
+     "<p>Yes. All chicken we sell comes from a JAKIM-certified halal supplier, and it is stored, " +
+     "packed and delivered completely separately from the non-halal section.</p>" +
+     '<p>We also sell pork in a clearly marked <a href="shop.html#nonhalal">non-halal section</a>. ' +
+     "Because of that, the shop as a whole is <b>not</b> a halal-certified business, and we won't " +
+     "claim it is. What we do promise is strict separation at every step &mdash; " +
+     '<a href="policies.html#halal">exactly how we handle it is written out here</a>.</p>'],
+
+    ["How do you keep halal and non-halal apart?",
+     "<p>Separate coolers, separate bags, separate handling, and separate delivery. They are " +
+     "treated as two different businesses that happen to share a website.</p>" +
+     "<p>If your order contains both, they arrive as two sealed packages that never touch. Your " +
+     "order confirmation shows them as two separate lists so you can check.</p>"],
+
+    ["What if I'm not home when you deliver?",
+     "<p>Pick a time window at checkout and try to be there &mdash; chilled goods shouldn't sit " +
+     "outside in Malaysian heat.</p>" +
+     "<p>If you'd rather we left it at your door, tick that box at checkout and we'll send you a " +
+     "photo when we drop it off. Once it's at your door it's your responsibility, so only choose " +
+     "that if you have a safe, shaded spot.</p>" +
+     "<p>If we arrive and can't reach you, we'll wait a few minutes and call. If we still can't " +
+     "reach you we take it with us and arrange a redelivery &mdash; but we can't guarantee the " +
+     "quality of chilled goods after that.</p>"],
+
+    ["The price changed from last week. Why?",
+     "<p>Because the market price changed. We're reselling what the farm and the market charge on " +
+     "the day, and vegetable prices in Malaysia move a lot &mdash; weather, festivals, fuel, the " +
+     "monsoon.</p>" +
+     "<p>What we promise is that the price you see when you order is the price you pay. We never " +
+     "come back and ask for more after you've paid.</p>"],
+
+    ["Do you sell by weight? What does 'approx 500g' mean?",
+     "<p>We sell in fixed packs at fixed prices, so you always know what you're paying before you " +
+     "order. Nature doesn't do exact weights &mdash; one ikat of kangkung is never precisely 250g " +
+     "&mdash; so every pack size is written as an approximate.</p>" +
+     "<p>We aim within about 10% either way. If a pack comes in noticeably short, tell us and " +
+     "we'll refund the difference.</p>"],
+  ];
+
+  document.getElementById("faq").innerHTML = QA.map(([q, a], i) =>
+    "<details" + (i === 0 ? " open" : "") + "><summary>" + q + "</summary>" +
+    '<div class="body">' + a + "</div></details>").join("");
+
+  document.getElementById("wa").href =
+    S.waLink("Hi " + C.business.ownerName + "! I have a question about how Jalvin Fresh works.");
+})();
+</script>
+</body>
+</html>
