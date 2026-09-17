@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leave a review — Jalvin Fresh</title>
+<meta name="description" content="Tell us how your Jalvin Fresh order went. Every review, good or bad, goes straight to the owner.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Your feedback</p>
+      <h1>How did we do?</h1>
+      <p class="lede">We're a small operation buying at the market by hand, so this is genuinely how
+        we find out what to fix. It takes about a minute.</p>
+
+      <div class="two-col" style="margin-top:26px">
+        <form class="panel" id="review-form" novalidate>
+          <div class="field">
+            <span class="label" id="stars-label">Your rating</span>
+            <div class="star-pick" id="stars" role="group" aria-labelledby="stars-label"></div>
+            <div class="err" data-err="stars"></div>
+            <p class="hint" id="star-hint" style="margin-top:8px">Tap a star.</p>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" autocomplete="given-name" placeholder="e.g. Aina">
+              <div class="err" data-err="name"></div>
+            </div>
+            <div class="field">
+              <label for="area">Your condo / area <span class="muted">(optional)</span></label>
+              <select id="area" name="area"></select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ref">Order number <span class="muted">(optional)</span></label>
+            <p class="hint">Helps us look up exactly what you received.</p>
+            <input type="text" id="ref" name="ref" placeholder="JV-260917-0417" style="text-transform:uppercase">
+          </div>
+
+          <div class="field">
+            <label for="text">How was it?</label>
+            <textarea id="text" name="text" placeholder="The kangkung was crisp, delivery was on time…"></textarea>
+            <div class="err" data-err="text"></div>
+          </div>
+
+          <div class="field">
+            <label for="improve">What could we do better? <span class="muted">(optional)</span></label>
+            <p class="hint">This is the part we actually act on. Be blunt — it's more useful than
+              being polite.</p>
+            <textarea id="improve" name="improve" placeholder="e.g. The fish could have been colder when it arrived"></textarea>
+          </div>
+
+          <div id="publish-note"></div>
+
+          <button class="btn btn--wa btn--block" type="submit" style="margin-top:8px">
+            Send my review on WhatsApp
+          </button>
+          <p class="tiny muted" style="margin:12px 0 0">This opens WhatsApp with your review typed
+            out. Nothing is sent until you press send there.</p>
+        </form>
+
+        <div class="sticky-col">
+          <div class="card">
+            <h3 style="margin-top:0">What happens to your review</h3>
+            <ul class="hero__points" style="margin:0">
+              <li><span class="tick">&#10003;</span><span><b>Every review reaches the owner
+                personally.</b> Not a support queue — one person reads all of them.</span></li>
+              <li><span class="tick">&#10003;</span><span><b>5-star reviews may be published</b> on
+                our homepage, with your first name and area, but only if you say it's OK.</span></li>
+              <li><span class="tick">&#10003;</span><span><b>Anything below 5 stars stays
+                private.</b> It isn't published anywhere — it's used to fix the problem.</span></li>
+            </ul>
+            <div class="notice notice--info" style="margin-top:16px">
+              Because of that last point, the reviews on our homepage are our <b>best</b> reviews, not
+              a complete picture. We'd rather tell you that than pretend otherwise.
+            </div>
+          </div>
+          <div class="notice" style="margin-top:14px">
+            <b>Something went wrong with an order?</b> Don't leave it in a review —
+            <a id="wa-help" href="#" target="_blank" rel="noopener">WhatsApp us</a> and we'll
+            fix it or refund you the same day.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/reviews.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG, R = window.Reviews;
+  S.layout("review.html");
+
+  const form = document.getElementById("review-form");
+  const hint = document.getElementById("star-hint");
+  const publishNote = document.getElementById("publish-note");
+
+  document.getElementById("area").innerHTML =
+    '<option value="">Prefer not to say</option>' +
+    C.neighbourhoods.filter(n => !/^Other/.test(n))
+      .map(n => '<option value="' + S.esc(n) + '">' + S.esc(n) + "</option>").join("");
+
+  const WORDS = { 1: "We let you down. Please tell us how.",
+                  2: "Not good enough — what went wrong?",
+                  3: "Middling. What would have made it better?",
+                  4: "Good, but not perfect. What was missing?",
+                  5: "Brilliant, thank you!" };
+
+  const getStars = R.mountPicker(document.getElementById("stars"), v => {
+    hint.textContent = WORDS[v];
+    publishNote.innerHTML = v === 5
+      ? '<label class="choice is-on" style="margin-top:4px"><input type="checkbox" name="consent" ' +
+        'value="1" checked><b>You may publish this on your website</b>' +
+        '<span class="why">We\'d show your first name and area only — never your number or ' +
+        'address. Untick if you\'d rather keep it private.</span></label>'
+      : '<div class="notice notice--info" style="margin:4px 0 8px">Reviews under 5 stars are ' +
+        "<b>never published</b>. This goes straight to the owner so we can fix it.</div>";
+  });
+
+  // Offer their most recent order number rather than making them find it.
+  const last = S.lastOrder();
+  if (last) {
+    form.ref.value = last.ref;
+    if (last.name) form.name.value = String(last.name).split(" ")[0];
+    if (last.neighbourhood) {
+      const opt = Array.from(form.area.options).find(o => o.value === last.neighbourhood);
+      if (opt) form.area.value = last.neighbourhood;
+    }
+  }
+
+  document.getElementById("wa-help").href =
+    S.waLink("Hi " + C.business.ownerName + "! Something went wrong with my order and I need help.");
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const stars = getStars();
+    const errors = {};
+    if (!stars) errors.stars = "Pick a rating from 1 to 5 stars.";
+    if (form.name.value.trim().length < 2) errors.name = "Please tell us your name.";
+    if (form.text.value.trim().length < 10) errors.text = "A sentence or two is plenty — but we need something.";
+
+    S.$$("[data-err]", form).forEach(el => el.classList.remove("show"));
+    S.$$(".is-error", form).forEach(el => el.classList.remove("is-error"));
+    if (Object.keys(errors).length) {
+      Object.keys(errors).forEach(k => {
+        const box = form.querySelector('[data-err="' + k + '"]');
+        const input = form.querySelector('[name="' + k + '"]');
+        if (box) { box.textContent = errors[k]; box.classList.add("show"); }
+        if (input) input.classList.add("is-error");
+      });
+      form.querySelector(".err.show").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const consent = form.querySelector('[name="consent"]');
+    const msg = R.buildMessage({
+      stars: stars,
+      name: form.name.value.trim(),
+      area: form.area.value,
+      ref: form.ref.value.trim().toUpperCase(),
+      text: form.text.value.trim(),
+      improve: form.improve.value.trim(),
+      consent: !!(consent && consent.checked),
+    });
+    window.open(S.waLink(msg), "_blank", "noopener");
+    S.toast("Thank you — press send in WhatsApp to finish");
+  });
+})();
+</script>
+</body>
+</html>

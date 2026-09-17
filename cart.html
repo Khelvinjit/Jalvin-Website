@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your basket — Jalvin Fresh</title>
+<meta name="description" content="Review your basket, choose a Wednesday or Saturday delivery, pay by DuitNow QR and send your order on WhatsApp.">
+<meta name="theme-color" content="#1F5F3F">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <section class="section">
+    <div class="wrap">
+      <h1 id="page-title">Your basket</h1>
+
+      <!-- STEP 1 — basket ---------------------------------------------- -->
+      <div id="step-cart">
+        <div class="two-col" style="margin-top:22px">
+          <div class="panel" id="cart-lines"></div>
+          <div class="sticky-col">
+            <div class="card">
+              <div id="cart-totals"></div>
+              <button class="btn btn--primary btn--block" id="to-details" style="margin-top:18px">
+                Continue to delivery details
+              </button>
+              <p class="tiny muted" style="margin:12px 0 0">
+                You'll choose your delivery date next, then pay by DuitNow QR.
+              </p>
+            </div>
+            <div class="notice notice--info" style="margin-top:14px">
+              <b>If something sells out</b>, we WhatsApp you from the market before deciding
+              anything — and you choose in advance whether you'd rather have a substitute or a refund.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 — details --------------------------------------------- -->
+      <div id="step-details" hidden>
+        <p class="lede">Where are we delivering, and when?</p>
+        <form id="details-form" novalidate>
+          <div class="two-col" style="margin-top:20px">
+            <div class="panel">
+              <h3 style="margin-top:0">Delivery date</h3>
+              <p class="muted small">We buy your goods the morning of delivery. Once a cut-off passes,
+                that date disappears from this list — there'd be no time left to shop for it.</p>
+              <div id="date-choices"></div>
+              <div class="err" data-err="delivery"></div>
+
+              <h3 style="margin-top:26px">Time window</h3>
+              <p class="muted small">Someone should be home — chilled goods shouldn't sit outside.</p>
+              <div class="field">
+                <label class="label" for="window">Preferred window</label>
+                <select name="window" id="window"></select>
+              </div>
+              <label class="choice" style="margin-top:4px">
+                <input type="checkbox" name="leaveAtDoor" value="1">
+                <b>It's fine to leave it at my door</b>
+                <span class="why">Only choose this if you have a safe, shaded spot. We'll send a
+                  photo when we drop it off.</span>
+              </label>
+
+              <h3 style="margin-top:26px">If something is out of stock</h3>
+              <p class="muted small">Market stock changes by the hour. Tell us now what you'd prefer.</p>
+              <div id="sub-choices"></div>
+              <div class="err" data-err="substitution"></div>
+            </div>
+
+            <div class="panel">
+              <h3 style="margin-top:0">Your details</h3>
+              <div class="field">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" autocomplete="name" placeholder="e.g. Aina Rahman">
+                <div class="err" data-err="name"></div>
+              </div>
+              <div class="field">
+                <label for="phone">WhatsApp number</label>
+                <p class="hint">This is how we confirm your payment and message you from the market.</p>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="012-345 6789">
+                <div class="err" data-err="phone"></div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label for="postcode">Postcode</label>
+                  <select id="postcode" name="postcode"></select>
+                  <div class="err" data-err="postcode"></div>
+                </div>
+                <div class="field">
+                  <label for="neighbourhood">Condo / area</label>
+                  <select id="neighbourhood" name="neighbourhood"></select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="address">Unit, block &amp; street</label>
+                <p class="hint">Be specific — our driver has a tight route and chilled goods.</p>
+                <textarea id="address" name="address" autocomplete="street-address"
+                  placeholder="e.g. A-12-3, Block A, Jalan Impact"></textarea>
+                <div class="err" data-err="address"></div>
+              </div>
+              <div class="field">
+                <label for="notes">Anything else? <span class="muted">(optional)</span></label>
+                <textarea id="notes" name="notes" placeholder="e.g. Please call when you're downstairs, lift is slow"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:22px">
+            <button type="button" class="btn btn--ghost" id="back-to-cart">Back to basket</button>
+            <button type="submit" class="btn btn--primary grow">Continue to payment</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 3 — pay & send ------------------------------------------ -->
+      <div id="step-pay" hidden>
+        <div class="two-col" style="margin-top:20px">
+          <div class="panel">
+            <h3 style="margin-top:0">1. Note your order number</h3>
+            <p class="muted small">Type this into the <b>Reference</b> box when you pay. It's how we
+              match your payment to your order in seconds instead of hunting for it.</p>
+            <p><span class="orderref" id="ref"></span></p>
+
+            <h3 style="margin-top:26px">2. Pay by DuitNow QR</h3>
+            <p class="muted small">Scan with any Malaysian banking app. Pay the exact amount.</p>
+            <div class="qr-box">
+              <img id="qr" alt="DuitNow QR code for Jalvin Fresh">
+              <p style="margin-top:12px"><b id="pay-name"></b><br>
+                <span class="muted small">Amount to pay</span><br>
+                <span class="orderref" id="pay-amount" style="border-style:solid"></span></p>
+            </div>
+
+            <h3 style="margin-top:26px">3. Send us the order</h3>
+            <p class="muted small">This opens WhatsApp with your whole order already typed out.
+              <b>Attach your payment screenshot in the same chat</b> — that's what we check against
+              your order.</p>
+            <a class="btn btn--wa btn--block" id="send-wa" href="#" target="_blank" rel="noopener">
+              Send my order on WhatsApp
+            </a>
+            <p class="tiny muted" style="margin-top:12px">Not working? WhatsApp us on
+              <a id="wa-plain" href="#"></a> and quote your order number.</p>
+          </div>
+
+          <div class="sticky-col">
+            <div class="card">
+              <h4 style="margin-top:0">Order summary</h4>
+              <div id="pay-summary"></div>
+            </div>
+            <div class="notice notice--warn" style="margin-top:14px">
+              <b>Nothing is bought until we verify your payment.</b> You'll get a WhatsApp
+              confirmation, usually within 2 hours. If we can't verify it, we refund you in full.
+            </div>
+            <button class="btn btn--ghost btn--block" id="back-to-details" style="margin-top:14px">
+              Change my details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="data/products.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/checkout.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG, K = window.Checkout;
+  S.layout("cart.html");
+  document.getElementById("qr").src = C.payment.qrImage;
+
+  const stepCart = document.getElementById("step-cart");
+  const stepDetails = document.getElementById("step-details");
+  const stepPay = document.getElementById("step-pay");
+  const form = document.getElementById("details-form");
+  const title = document.getElementById("page-title");
+
+  function show(which) {
+    stepCart.hidden = which !== "cart";
+    stepDetails.hidden = which !== "details";
+    stepPay.hidden = which !== "pay";
+    title.textContent = which === "cart" ? "Your basket"
+                      : which === "details" ? "Delivery details" : "Pay & send";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* ---- step 1 ---- */
+  function drawCart() {
+    const any = K.renderCart(document.getElementById("cart-lines"));
+    const t = K.renderTotals(document.getElementById("cart-totals"));
+    const go = document.getElementById("to-details");
+    go.toggleAttribute("disabled", !any || t.belowMinimum);
+    return t;
+  }
+  drawCart();
+
+  document.getElementById("cart-lines").addEventListener("click", e => {
+    const rm = e.target.closest("[data-remove]");
+    if (rm) { S.removeFromCart(rm.getAttribute("data-remove")); drawCart(); return; }
+    const step = e.target.closest("[data-step]");
+    if (step) {
+      const id = step.closest(".stepper").getAttribute("data-id");
+      S.setQty(id, (S.getCart()[id] || 0) + Number(step.getAttribute("data-step")));
+      drawCart();
+    }
+  });
+
+  /* ---- step 2 ---- */
+  // Delivery dates are recomputed every time this step opens, so a page left
+  // sitting open past a cut-off cannot offer a date we can no longer buy for.
+  function drawDates() {
+    const slots = S.getAvailableDeliveryDates(new Date(), 4);
+    const host = document.getElementById("date-choices");
+    if (!slots.length) {
+      host.innerHTML = '<div class="notice notice--danger">Ordering is closed at the moment. ' +
+        "WhatsApp us and we'll sort something out.</div>";
+      return;
+    }
+    host.innerHTML = slots.map((s, i) =>
+      '<label class="choice"><input type="radio" name="delivery" value="' + S.esc(s.deliveryIso) +
+        '" data-text="' + S.esc(s.dateText) + '"' + (i === 0 ? " checked" : "") + ">" +
+        "<b>" + S.esc(s.dateText) + "</b>" +
+        '<span class="why">Order by ' + S.esc(s.cutoffLabel) + " — " +
+          S.countdownText(s.msLeft) + " left</span></label>").join("");
+    syncChoice(host);
+  }
+
+  function syncChoice(host) {
+    const paint = () => S.$$(".choice", host).forEach(l =>
+      l.classList.toggle("is-on", !!l.querySelector("input:checked")));
+    host.addEventListener("change", paint);
+    paint();
+  }
+
+  document.getElementById("window").innerHTML =
+    C.deliveryWindows.map(w => '<option value="' + S.esc(w) + '">' + S.esc(w) + "</option>").join("");
+  document.getElementById("postcode").innerHTML =
+    '<option value="">Choose…</option>' +
+    C.allowedPostcodes.map(p => '<option value="' + S.esc(p) + '">' + S.esc(p) + "</option>").join("");
+  document.getElementById("neighbourhood").innerHTML =
+    C.neighbourhoods.map(n => '<option value="' + S.esc(n) + '">' + S.esc(n) + "</option>").join("");
+
+  const subHost = document.getElementById("sub-choices");
+  subHost.innerHTML = C.substitutionOptions.map((o, i) =>
+    '<label class="choice"><input type="radio" name="substitution" value="' + S.esc(o.id) +
+      '" data-label="' + S.esc(o.label) + '"' + (i === 0 ? " checked" : "") + ">" +
+      "<b>" + S.esc(o.label) + '</b><span class="why">' + S.esc(o.note) + "</span></label>").join("");
+  syncChoice(subHost);
+
+  document.getElementById("to-details").addEventListener("click", () => {
+    drawDates();
+    // Pre-fill from the customer's last order — most grocery orders repeat.
+    const last = S.lastOrder();
+    if (last && !form.name.value) {
+      form.name.value = last.name || "";
+      form.phone.value = last.phoneRaw || "";
+      form.address.value = last.address || "";
+      if (last.postcode) form.postcode.value = last.postcode;
+      if (last.neighbourhood) form.neighbourhood.value = last.neighbourhood;
+    }
+    show("details");
+  });
+  document.getElementById("back-to-cart").addEventListener("click", () => { drawCart(); show("cart"); });
+  document.getElementById("back-to-details").addEventListener("click", () => { drawDates(); show("details"); });
+
+  /* ---- step 3 ---- */
+  let order = null;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const errors = K.validate(form);
+
+    // Re-check the cut-off at submit: the customer may have had this page open
+    // for hours, and the deadline may have passed while they typed.
+    const chosen = form.querySelector('[name="delivery"]:checked');
+    if (chosen) {
+      const live = S.getAvailableDeliveryDates(new Date(), 4);
+      if (!live.some(s => s.deliveryIso === chosen.value)) {
+        errors.delivery = "That cut-off just passed while you were filling this in. Please pick another date.";
+        drawDates();
+      }
+    }
+    if (!K.showErrors(form, errors)) return;
+
+    const lines = S.cartLines();
+    const t = S.totals();
+    const sub = form.querySelector('[name="substitution"]:checked');
+    const pack = l => ({ name: l.product.ms, pack: l.product.pack, qty: l.qty, total: l.total,
+                         id: l.product.id, price: l.product.price });
+
+    order = {
+      ref: S.makeOrderRef(),
+      placedAt: new Date().toISOString(),
+      name: form.name.value.trim(),
+      phone: S.normalisePhone(form.phone.value),
+      phoneRaw: form.phone.value.trim(),
+      postcode: form.postcode.value,
+      neighbourhood: form.neighbourhood.value,
+      address: form.address.value.trim().replace(/\s*\n\s*/g, ", "),
+      deliveryIso: chosen.value,
+      deliveryText: chosen.getAttribute("data-text"),
+      window: form.window.value + (form.leaveAtDoor.checked ? " · OK to leave at door" : ""),
+      substitution: sub.value,
+      substitutionLabel: sub.getAttribute("data-label"),
+      notes: form.notes.value.trim(),
+      halal: lines.halal.map(pack),
+      nonhalal: lines.nonhalal.map(pack),
+      subtotal: t.subtotal, delivery: t.delivery, grand: t.grand,
+      status: "awaiting",
+    };
+
+    document.getElementById("ref").textContent = order.ref;
+    document.getElementById("qr").src = C.payment.qrImage;
+    document.getElementById("pay-name").textContent = C.payment.accountName;
+    document.getElementById("pay-amount").textContent = S.money(order.grand);
+
+    const msg = K.buildMessage(order);
+    document.getElementById("send-wa").href = S.waLink(msg);
+    const plain = document.getElementById("wa-plain");
+    plain.href = S.waLink("Hi! I need help with order " + order.ref);
+    plain.textContent = C.business.whatsappDisplay;
+
+    document.getElementById("pay-summary").innerHTML =
+      '<p class="small" style="margin:0 0 10px"><b>' + S.esc(order.deliveryText) + "</b><br>" +
+        '<span class="muted">' + S.esc(order.window) + "</span></p>" +
+      order.halal.concat(order.nonhalal).map(l =>
+        '<div class="row between small" style="gap:8px;padding:3px 0">' +
+          "<span>" + l.qty + " &times; " + S.esc(l.name) + "</span>" +
+          '<span class="money">' + S.money(l.total) + "</span></div>").join("") +
+      '<div class="totals" style="margin-top:12px">' +
+        "<div><span>Subtotal</span><span class=\"money\">" + S.money(order.subtotal) + "</span></div>" +
+        "<div><span>Delivery</span><span class=\"money\">" +
+          (order.delivery ? S.money(order.delivery) : "FREE") + "</span></div>" +
+        "<div class=\"grand\"><span>Total</span><span class=\"money\">" + S.money(order.grand) +
+        "</span></div></div>";
+
+    // Keep the customer's own copy so track.html and "reorder" work later.
+    S.saveOrder(order);
+    show("pay");
+  });
+
+  // Once they have actually sent it on WhatsApp, the basket has served its
+  // purpose — clear it so a refresh doesn't create a duplicate order.
+  document.getElementById("send-wa").addEventListener("click", () => {
+    setTimeout(() => {
+      S.clearCart();
+      S.toast("Order sent. Don't forget to attach your payment screenshot!");
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>

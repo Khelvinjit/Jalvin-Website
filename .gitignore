@@ -1,0 +1,15 @@
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python bytecode from tools/
+__pycache__/
+*.pyc
+
+# Node (this project needs no dependencies, but just in case)
+node_modules/

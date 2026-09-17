@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jalvin Fresh — Farm-fresh sayur, ikan &amp; ayam delivered in Cyberjaya</title>
+<meta name="description" content="Order fresh vegetables, fish and halal chicken online in Cyberjaya. We buy from the farmer only after you order, so nothing sits in a warehouse. Delivered Wednesday and Saturday.">
+<meta name="theme-color" content="#1F5F3F">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<!-- Link preview card. Most customers will meet this site as a link pasted
+     into a WhatsApp group, so the card is the first impression. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jalvin Fresh — farm-fresh groceries, Cyberjaya">
+<meta property="og:description" content="Sayur, ikan and halal ayam bought fresh from the farmer after you order. Delivered Wednesday and Saturday. RM5 delivery, free above RM80.">
+<meta property="og:image" content="assets/img/og-cover.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<div id="site-head"></div>
+
+<main>
+  <!-- HERO ------------------------------------------------------------- -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">Cyberjaya only · Wednesday &amp; Saturday delivery</p>
+          <h1>Bought from the farmer <em>after</em> you order.</h1>
+          <p class="lede">Nothing sits in a warehouse waiting for a buyer. You order, we go to the
+            farm and the market that morning, and it reaches your door the same day it was picked.</p>
+          <div class="row" style="margin-top:22px">
+            <a class="btn btn--primary" href="shop.html">Shop this week's produce</a>
+            <a class="btn btn--ghost" href="#how">How it works</a>
+          </div>
+          <ul class="hero__points">
+            <li><span class="tick">&#10003;</span><span><b>Pay first, then we buy.</b> That is why it is
+              cheaper than the grocery apps — no stock, no waste, no markup to cover spoilage.</span></li>
+            <li><span class="tick">&#10003;</span><span><b>Every price shows its pack size.</b> No
+              guessing what "1 pack" means.</span></li>
+            <li><span class="tick">&#10003;</span><span><b>Halal and non-halal never share a bag.</b>
+              Separate storage, separate cooler, separate delivery.</span></li>
+          </ul>
+        </div>
+        <div class="hero__art" id="hero-art" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:30px">
+    <div class="wrap">
+      <div class="trust">
+        <div><b id="t-count">50+</b><span>fresh items</span></div>
+        <div><b>RM5</b><span>delivery, free above RM80</span></div>
+        <div><b>2&times;</b><span>a week, Wed &amp; Sat</span></div>
+        <div><b>2 hrs</b><span>average WhatsApp reply</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS ------------------------------------------------------
+       The pay-before-we-buy model is unusual. If it is not explained in the
+       first screen or two, first-time visitors bounce. -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <p class="eyebrow alt">How it works</p>
+      <h2>Four steps, and we WhatsApp you at every one</h2>
+      <p class="lede" style="margin-bottom:28px">The only unusual part is that you pay before we
+        shop. Here is exactly what happens to your money in between.</p>
+      <div class="steps">
+        <div class="step">
+          <h3>You order &amp; pay</h3>
+          <p>Fill your basket, pick Wednesday or Saturday, and pay by DuitNow QR. You get an order
+            number — type it into the DuitNow reference box so we can match your payment instantly.</p>
+        </div>
+        <div class="step">
+          <h3>We verify</h3>
+          <p>We check your payment against your order and WhatsApp you a confirmation, usually within
+            two hours. Nothing is bought until this is done.</p>
+        </div>
+        <div class="step">
+          <h3>We buy it fresh</h3>
+          <p>Early on delivery morning we go to the farm and the market with your list in hand. If
+            something has sold out we message you from the stall before deciding anything.</p>
+        </div>
+        <div class="step">
+          <h3>We deliver</h3>
+          <p>Straight from the market into a cooler box and to your door in Cyberjaya, in the time
+            window you chose. Fish and chicken stay chilled the whole way.</p>
+        </div>
+      </div>
+      <div class="notice notice--info" style="margin-top:22px">
+        <b>Order cut-offs.</b> Wednesday delivery closes <b>Monday 11:59 PM</b>. Saturday delivery
+        closes <b>Thursday 11:59 PM</b>. These are firm — after the cut-off there is no time left to
+        buy your goods before the delivery run.
+      </div>
+    </div>
+  </section>
+
+  <!-- POPULAR ------------------------------------------------------------ -->
+  <section class="section" style="background:var(--surface-2)">
+    <div class="wrap">
+      <div class="row between" style="align-items:flex-end;margin-bottom:22px">
+        <div>
+          <p class="eyebrow">This week</p>
+          <h2 style="margin:0">Popular in Cyberjaya</h2>
+        </div>
+        <a class="btn btn--ghost btn--sm" href="shop.html">See all 50+ items</a>
+      </div>
+      <div class="grid" id="popular"></div>
+    </div>
+  </section>
+
+  <!-- DELIVERY AREA ------------------------------------------------------ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="two-col">
+        <div>
+          <p class="eyebrow">Delivery area</p>
+          <h2>We deliver to Cyberjaya, and only Cyberjaya</h2>
+          <p class="lede">Fresh fish and chicken have to stay between 0&ndash;4&deg;C from the market
+            to your kitchen. One tight route through one town is the only way to promise that
+            honestly, so we would rather serve Cyberjaya properly than serve half the Klang Valley
+            badly.</p>
+          <p><b>Postcodes we cover:</b> <span id="zone-codes"></span></p>
+          <p class="muted small">Outside Cyberjaya? WhatsApp us anyway — we keep a list and expand to
+            the areas we get the most requests from.</p>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0">Delivery windows</h3>
+          <p class="muted small" style="margin-bottom:14px">Pick one at checkout. Someone should be
+            home — chilled goods should not sit outside in Malaysian heat.</p>
+          <ul class="hero__points" style="margin:0" id="windows"></ul>
+          <hr>
+          <p style="margin:0"><b>Minimum order <span id="min-order"></span>.</b> Delivery
+            <span id="del-fee"></span>, free once your basket passes <span id="free-above"></span>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -------------------------------------------------------------
+       Only 5-star reviews get published here, so the heading says so plainly.
+       Implying these are all the reviews would be misleading. -->
+  <section class="section" style="background:var(--green-tint)">
+    <div class="wrap">
+      <p class="eyebrow">What customers say</p>
+      <h2 style="margin-bottom:.2em">Our 5-star reviews</h2>
+      <p class="lede" style="margin-bottom:26px">These are the 5-star reviews we have been given
+        permission to publish. Every review we receive — including the critical ones — goes straight
+        to the owner and is used to fix things.</p>
+      <div class="grid" id="reviews" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))"></div>
+      <div class="row" style="margin-top:24px">
+        <a class="btn btn--ghost" href="review.html">Leave your own review</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA ---------------------------------------------------------- -->
+  <section class="section-lg">
+    <div class="wrap center">
+      <h2>Ready for this week's order?</h2>
+      <p class="lede" style="margin:0 auto 24px">Order now and it reaches you on the next
+        delivery day.</p>
+      <div class="row" style="justify-content:center">
+        <a class="btn btn--primary" href="shop.html">Start your basket</a>
+        <a class="btn btn--ghost" id="wa-hero" href="#" target="_blank" rel="noopener">Ask us on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/js/config.js"></script>
+<script src="data/products.js"></script>
+<script src="data/reviews.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/catalogue.js"></script>
+<script>
+(function () {
+  const S = window.Store, C = window.CONFIG;
+  S.layout("index.html");
+
+  const all = S.allProducts();
+
+  // Hero collage — one recognisable item from each category.
+  const heroIds = ["kangkung", "ikan-kembung", "ayam-standard",
+                   "tomato", "udang-putih", "cili-merah"];
+  document.getElementById("hero-art").innerHTML = heroIds
+    .map(id => all.find(p => p.id === id))
+    .filter(Boolean)
+    .map(p => '<img src="' + S.esc(p.image) + '" alt="" width="160" height="160">')
+    .join("");
+
+  document.getElementById("t-count").textContent = all.length + "+";
+
+  // Popular = a spread across all four categories, so the non-halal section is
+  // visible from the homepage rather than hidden away.
+  const picks = ["kangkung", "bayam", "tomato", "ikan-kembung", "udang-putih",
+                 "ayam-standard", "dada-ayam", "pork-belly"];
+  const popular = picks.map(id => all.find(p => p.id === id)).filter(Boolean);
+  const host = document.getElementById("popular");
+  window.Catalogue.render(host, popular);
+  window.Catalogue.wire(host);
+
+  document.getElementById("zone-codes").textContent =
+    C.allowedPostcodes.join(" and ") + " " + C.allowedAreaName;
+  document.getElementById("min-order").textContent = S.money(C.minimumOrder);
+  document.getElementById("del-fee").textContent = S.money(C.deliveryFee);
+  document.getElementById("free-above").textContent = S.money(C.freeDeliveryAbove);
+  document.getElementById("windows").innerHTML = C.deliveryWindows
+    .map(w => '<li><span class="tick">&#10003;</span><span>' + S.esc(w) + "</span></li>").join("");
+
+  document.getElementById("wa-hero").href =
+    S.waLink("Hi " + C.business.ownerName + "! I saw the Jalvin Fresh website and have a question.");
+
+  const rv = (window.REVIEWS_DATA && window.REVIEWS_DATA.reviews) || [];
+  document.getElementById("reviews").innerHTML = rv.slice(0, 6).map(r =>
+    '<article class="review">' +
+      S.starsHtml(r.stars) +
+      '<p class="review__text">&ldquo;' + S.esc(r.text) + '&rdquo;</p>' +
+      '<div class="row" style="gap:10px;margin-top:auto">' +
+        '<span class="avatar">' + S.esc(r.name.charAt(0)) + "</span>" +
+        '<span class="review__who"><b>' + S.esc(r.name) + "</b><br>" + S.esc(r.area) + "</span>" +
+      "</div></article>").join("");
+})();
+</script>
+</body>
+</html>
